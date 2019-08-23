@@ -480,3 +480,42 @@ figure.highlight {
 .ins-section .ins-search-item:hover .ins-search-preview,
 .ins-section .ins-search-item.active .ins-search-preview {
   color: #fff; }
+
+.part-portfolio {
+  display: flex;
+  flex-wrap: wrap; }
+  .part-portfolio a {
+    width: 50%; }
+    .part-portfolio a:hover .thumbnail {
+      -webkit-filter: grayscale(0%);
+      -moz-filter: grayscale(0%);
+      -ms-filter: grayscale(0%);
+      -o-filter: grayscale(0%);
+      filter: grayscale(0%);
+      filter: gray; }
+  .part-portfolio .thumbnail {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    height: 0;
+    padding-bottom: 55%;
+    margin-right: 1px;
+    transition: filter 0.25s ease-in;
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: grayscale(100%);
+    filter: gray; }
+  .part-portfolio h3 {
+    text-align: center;
+    font-size: 1rem;
+    padding: 1rem 0;
+    margin: 0 !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
+
+@media screen and (min-width: 1024px) {
+  .part-portfolio a {
+    width: 33.33%; } }
