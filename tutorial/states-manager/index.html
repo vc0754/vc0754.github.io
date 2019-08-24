@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>状态管理器（状态机） - Vincent</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="Record, learn and share the technology">
+
+
+
+
+
+    <meta name="description" content="我最先接触到状态机是在利用 cocos 编写游戏的时候，游戏的变量特别多，各个组件之间也有通讯的需求，状态机这种概念刚好解决了变量之间传递的繁琐。而且状态机不同于全局变量，一般来说状态机都是可以带事务触发的，所以它更适合做一些大型的，或团队协作的项目。下面我们就来说说 Vue 和 React 这两种当下最热门的前端框架所对应使用的状态管理器（Vuex 和 Redux）。">
+<meta name="keywords" content="vuex, redux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="状态管理器（状态机）">
+<meta property="og:url" content="https://vincent0754.github.io/tutorial/states-manager/index.html">
+<meta property="og:site_name" content="Vincent">
+<meta property="og:description" content="我最先接触到状态机是在利用 cocos 编写游戏的时候，游戏的变量特别多，各个组件之间也有通讯的需求，状态机这种概念刚好解决了变量之间传递的繁琐。而且状态机不同于全局变量，一般来说状态机都是可以带事务触发的，所以它更适合做一些大型的，或团队协作的项目。下面我们就来说说 Vue 和 React 这两种当下最热门的前端框架所对应使用的状态管理器（Vuex 和 Redux）。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2019-08-24T06:13:00.218Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="状态管理器（状态机）">
+<meta name="twitter:description" content="我最先接触到状态机是在利用 cocos 编写游戏的时候，游戏的变量特别多，各个组件之间也有通讯的需求，状态机这种概念刚好解决了变量之间传递的繁琐。而且状态机不同于全局变量，一般来说状态机都是可以带事务触发的，所以它更适合做一些大型的，或团队协作的项目。下面我们就来说说 Vue 和 React 这两种当下最热门的前端框架所对应使用的状态管理器（Vuex 和 Redux）。">
+
+
+
+
+
+<link rel="icon" href="/favicon.png">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    VC
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">归档</a>
+            
+            <a class="navbar-item " href="/categories/tutorial/">笔记</a>
+            
+            <a class="navbar-item " href="/categories/portfolio/design">设计</a>
+            
+            <a class="navbar-item " href="/categories/portfolio/development">开发</a>
+            
+            <a class="navbar-item " href="/about">关于</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜索" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/vc0754">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            状态管理器（状态机）
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2017-08-24T04:46:27.000Z" itemprop="datePublished">8月 24 2017</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/tutorial/">tutorial</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            9 分钟 读完 (约 1315 字)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <p>我最先接触到<code>状态机</code>是在利用 cocos 编写游戏的时候，游戏的变量特别多，各个组件之间也有通讯的需求，<code>状态机</code>这种概念刚好解决了变量之间传递的繁琐。而且<code>状态机</code>不同于全局变量，一般来说<code>状态机</code>都是可以带事务触发的，所以它更适合做一些大型的，或团队协作的项目。下面我们就来说说 Vue 和 React 这两种当下最热门的前端框架所对应使用的状态管理器（Vuex 和 Redux）。</p>
+<a id="more"></a>
+
+<hr>
+<h2 id="vue-状态管理器-vuex"><a href="#vue-状态管理器-vuex" class="headerlink" title="vue 状态管理器 vuex"></a>vue 状态管理器 vuex</h2><p>在 vue 中使用状态机，需要先安装</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install vuex --save</span><br></pre></td></tr></table></figure></p>
+<p>/store/index.js<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;</span><br><span class="line">import Vuex from &apos;vuex&apos;</span><br><span class="line">Vue.use(Vuex)</span><br><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;)</span><br><span class="line">export default store</span><br></pre></td></tr></table></figure></p>
+<p>/main.js<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import store from &apos;./store&apos;</span><br><span class="line"></span><br><span class="line">new Vue(&#123;</span><br><span class="line">  store,</span><br><span class="line">  render: h =&gt; h(App),</span><br><span class="line">&#125;).$mount(&apos;#app&apos;)</span><br></pre></td></tr></table></figure></p>
+<p>至此，我们就可以开始编写 vuex 的业务代码了。</p>
+<h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><p>vuex 中保存的“数据状态”，可以在页面通过 <code>this.$store.state</code> 来获取已经定义好的状态。</p>
+<p>/store/index.js<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;</span><br><span class="line">import Vuex from &apos;vuex&apos;</span><br><span class="line">Vue.use(Vuex)</span><br><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    count: 1</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line">export default store</span><br></pre></td></tr></table></figure></p>
+<p>/src/App.vue<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">&#123;&#123; this.$store.state.count &#125;&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<h3 id="Getters"><a href="#Getters" class="headerlink" title="Getters"></a>Getters</h3><p>相当于vue中的computed计算属性，getter 的返回值会根据它的依赖被缓存起来，且只有当它的依赖值发生了改变才会被重新计算，这里我们可以通过定义vuex的Getter来获取，Getters 可以用于监听、state中的值的变化，返回计算后的结果，这里我们修改Hello World.vue文件如下</p>
+<p>再修改index.js文件如下，其中getters中的getStateCount方法接收一个参数state，这个参数就是我们用来保存数据的那个对象</p>
+<h3 id="Mutations"><a href="#Mutations" class="headerlink" title="Mutations"></a>Mutations</h3><p>数据我们在页面是获取到了，但是如果我们需要修改count值怎么办？如果需要修改store中的值唯一的方法就是提交mutation来修改，我们现在Hello World.vue文件中添加两个按钮，一个加1，一个减1；这里我们点击按钮调用addFun（执行加的方法）和reductionFun（执行减法的方法），然后在里面直接提交mutations中的方法修改值</p>
+<p>修改index.js文件，添加mutations，在mutations中定义两个函数，用来对count加1和减1，这里定义的两个方法就是上面commit提交的两个方法如下</p>
+<p>页面上点击+、- 按钮操作数据：</p>
+<p>点击 “+”按钮<br>执行成功，我们再连续点击三次减 “-” 按钮</p>
+<h3 id="Actions"><a href="#Actions" class="headerlink" title="Actions"></a>Actions</h3><p>我们看到，当点击三次后值从2变成了-1；页面上的值是改变了；我们达到了修改store中状态值的目的，但是，官方并不介意我们这样直接去修改store里面的值，而是让我们去提交一个actions，在actions中提交mutation再去修改状态值，接下来我们修改index.js文件，先定义actions提交mutation的函数：</p>
+<p>然后我们去修改Hello World.vue文件：</p>
+<p>这里我们把commit提交mutations修改为使用dispatch来提交actions；我们点击页面，效果是一样的。</p>
+<p>好了，我们这里已经实现了一个基本的vuex修改状态值的完整流程，如果我们需要指定加减的数值，那么我们直接传入dispatch中的第二个参数，然后在actions中的对应函数中接受参数在传递给mutations中的函数进行计算：</p>
+<h3 id="mapState，mapGetters，mapActions"><a href="#mapState，mapGetters，mapActions" class="headerlink" title="mapState，mapGetters，mapActions"></a>mapState，mapGetters，mapActions</h3><p>如果我们不喜欢这种在页面上使用 <code>this.$stroe.state.count</code> 和 <code>this.$store.dispatch(&#39;funName&#39;)</code> 这种很长的写法，那么我们可以使用 <code>mapState</code>、<code>mapGetters</code>、<code>mapActions</code> 就不会这么麻烦了</p>
+<p>我们修改Hello World.vue文件如下</p>
+<hr>
+<h2 id="react-状态管理器-redux"><a href="#react-状态管理器-redux" class="headerlink" title="react 状态管理器 redux"></a>react 状态管理器 redux</h2><p>在 react 中使用状态机，需要先安装</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install redux --save</span><br></pre></td></tr></table></figure></p>
+<p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">import &#123; createStore &#125; from &apos;redux&apos;;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 这是一个 reducer，形式为 (state, action) =&gt; state 的纯函数。</span><br><span class="line"> * 描述了 action 如何把 state 转变成下一个 state。</span><br><span class="line"> *</span><br><span class="line"> * state 的形式取决于你，可以是基本类型、数组、对象、</span><br><span class="line"> * 甚至是 Immutable.js 生成的数据结构。惟一的要点是</span><br><span class="line"> * 当 state 变化时需要返回全新的对象，而不是修改传入的参数。</span><br><span class="line"> *</span><br><span class="line"> * 下面例子使用 `switch` 语句和字符串来做判断，但你可以写帮助类(helper)</span><br><span class="line"> * 根据不同的约定（如方法映射）来判断，只要适用你的项目即可。</span><br><span class="line"> */</span><br><span class="line">function counter(state = 0, action) &#123;</span><br><span class="line">  switch(action.type) &#123;</span><br><span class="line">    case &apos;INCREMENT&apos;:</span><br><span class="line">      return state + 1;</span><br><span class="line">    case &apos;DECRMENT&apos;:</span><br><span class="line">      return stat - 1;</span><br><span class="line">    default:</span><br><span class="line">      return state;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 创建 Redux store 来存放应用的状态。</span><br><span class="line">// API 是 &#123; subscribe, dispatch, getState &#125;。</span><br><span class="line">let store = createStore(counter);</span><br><span class="line"></span><br><span class="line">// 可以手动订阅更新，也可以事件绑定到视图层。</span><br><span class="line">store.subscribe(() =&gt; &#123;</span><br><span class="line">  console.log(store.getState())</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// 改变内部 state 惟一方法是 dispatch 一个 action。</span><br><span class="line">// action 可以被序列化，用日记记录和储存下来，后期还可以以回放的方式执行</span><br><span class="line">store.dispatch(&#123; type: &apos;INCREMENT&apos; &#125;);</span><br><span class="line">// 1</span><br><span class="line">store.dispatch(&#123; type: &apos;INCREMENT&apos; &#125;);</span><br><span class="line">// 2</span><br><span class="line">store.dispatch(&#123; type: &apos;DECREMENT&apos; &#125;);</span><br><span class="line">// 1</span><br></pre></td></tr></table></figure></p>
+
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/vuex-redux/">#vuex, redux</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/tutorial/webpack-tutorial/">webpack 教程</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/tutorial/frontend-storage/">前端存储方式总结</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 Vincent Cheng&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/vc0754">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站内搜索">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>
