@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>Apache Bench （ab） 使用说明 - Vincent</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="Record, learn and share the technology">
+
+
+
+
+
+    <meta name="description" content="ApacheBench 是 Apache 软件基金会的一个开放源代码的网页服务器软件，可以在大多数电脑操作系统中运行。它是一个指令列程式，专门用来测试网站服务器的运行效能。">
+<meta name="keywords" content="apache,ab">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Apache Bench （ab） 使用说明">
+<meta property="og:url" content="https://vincent0754.github.io/tutorial/apache-bench-manual/index.html">
+<meta property="og:site_name" content="Vincent">
+<meta property="og:description" content="ApacheBench 是 Apache 软件基金会的一个开放源代码的网页服务器软件，可以在大多数电脑操作系统中运行。它是一个指令列程式，专门用来测试网站服务器的运行效能。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="https://vincent0754.github.io/tutorial/apache-bench-manual/thumbnail.jpg">
+<meta property="og:image" content="https://vincent0754.github.io/tutorial/apache-bench-manual/preview.png">
+<meta property="og:updated_time" content="2019-09-02T04:09:38.380Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Apache Bench （ab） 使用说明">
+<meta name="twitter:description" content="ApacheBench 是 Apache 软件基金会的一个开放源代码的网页服务器软件，可以在大多数电脑操作系统中运行。它是一个指令列程式，专门用来测试网站服务器的运行效能。">
+<meta name="twitter:image" content="https://vincent0754.github.io/tutorial/apache-bench-manual/thumbnail.jpg">
+
+
+
+
+
+<link rel="icon" href="/favicon.png">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    VC
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">归档</a>
+            
+            <a class="navbar-item " href="/categories/tutorial/">笔记</a>
+            
+            <a class="navbar-item " href="/categories/portfolio/design">设计</a>
+            
+            <a class="navbar-item " href="/categories/portfolio/development">开发</a>
+            
+            <a class="navbar-item " href="/about">关于</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜索" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/vc0754">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            Apache Bench （ab） 使用说明
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2019-08-29T10:19:21.000Z" itemprop="datePublished">8月 29 2019</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/tutorial/">tutorial</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            7 分钟 读完 (约 1018 字)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <img src="/tutorial/apache-bench-manual/thumbnail.jpg"><br>
+
+<p>ApacheBench 是 Apache 软件基金会的一个开放源代码的网页服务器软件，可以在大多数电脑操作系统中运行。它是一个指令列程式，专门用来测试网站服务器的运行效能。</p>
+<a id="more"></a>
+
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ab [options] [http://]hostname[:port]/path</span><br></pre></td></tr></table></figure></p>
+<h4 id="Options"><a href="#Options" class="headerlink" title="Options"></a>Options</h4><div style="display:none;">
+参数命令|参数|说明
+---|:--:|---:
+-n|requests|Number of requests to perform
+-c|concurrency|Number of multiple requests to make at a time
+-t|timelimit|Seconds to max. to spend on benchmarking, This implies -n 50000
+-s|timeout|Seconds to max. wait for each response<br>Default is 30 seconds
+-b|windowsize|Size of TCP send/receive buffer, in bytes
+-B|address|Address to bind to when making outgoing connections
+-p|postfile|File containing data to POST. Remember also to set -T
+-u|putfile|File containing data to PUT. Remember also to set -T
+-T|content-type|Content-type header to use for POST/PUT data, eg. 'application/x-www-form-urlencoded'<br>Default is 'text/plain'
+-v|verbosity|How much troubleshooting info to print
+-w||Print out results in HTML tables
+-i||Use HEAD instead of GET
+-x|attributes|String to insert as table attributes
+-y|attributes|String to insert as tr attributes
+-z|attributes|String to insert as td or th attributes
+-C|attribute|Add cookie, eg. 'Apache=1234'. (repeatable)
+-H|attribute|Add Arbitrary header line, eg. 'Accept-Encoding: gzip' Inserted after all normal header lines. (repeatable)
+-A|attribute|Add Basic WWW Authentication, the attributes are a colon separated username and password.
+-P|attribute|Add Basic Proxy Authentication, the attributes are a colon separated username and password.
+-X|proxy:port|Proxyserver and port number to use
+-V||Print version number and exit
+-k||Use HTTP KeepAlive feature
+-d||Do not show percentiles served table.
+-S||Do not show confidence estimators and warnings.
+-q||Do not show progress when doing more than 150 requests
+-l||Accept variable document length (use this for dynamic pages)
+-g|filename|Output collected data to gnuplot format file.
+-e|filename|Output CSV file with percentages served
+-r||Don't exit on socket receive errors.
+-m|method|Method name
+-h||Display usage information (this message)
+</div>
+
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th align="center">参数</th>
+<th align="right">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-n</td>
+<td align="center">requests</td>
+<td align="right">要执行的请求数</td>
+</tr>
+<tr>
+<td>-c</td>
+<td align="center">concurrency</td>
+<td align="right">同一时间发出的请求个数（并发数）</td>
+</tr>
+<tr>
+<td>-t</td>
+<td align="center">timelimit</td>
+<td align="right">在基准测试上花费最多的秒数，这意味着-n 50000</td>
+</tr>
+<tr>
+<td>-s</td>
+<td align="center">timeout</td>
+<td align="right">等待每个响应的最长秒数<br><code>默认：30秒</code></td>
+</tr>
+<tr>
+<td>-b</td>
+<td align="center">windowsize</td>
+<td align="right">TCP发送/接收缓冲区的大小（字节）</td>
+</tr>
+<tr>
+<td>-B</td>
+<td align="center">address</td>
+<td align="right">进行传出连接时要绑定到的地址<!--Address to bind to when making outgoing connections--></td>
+</tr>
+<tr>
+<td>-p</td>
+<td align="center">postfile</td>
+<td align="right">用 POST 发送文件，请设置<code>-T</code></td>
+</tr>
+<tr>
+<td>-u</td>
+<td align="center">putfile</td>
+<td align="right">用 PUT 发送文件，请设置<code>-T</code></td>
+</tr>
+<tr>
+<td>-T</td>
+<td align="center">content-type</td>
+<td align="right">Content-type header to use for POST/PUT data<br><code>默认：&#39;text/plain&#39;</code></td>
+</tr>
+<tr>
+<td>-v</td>
+<td align="center">verbosity</td>
+<td align="right">要打印多少故障排除信息</td>
+</tr>
+<tr>
+<td>-w</td>
+<td align="center"></td>
+<td align="right">在 HTML 表格中打印出结果</td>
+</tr>
+<tr>
+<td>-i</td>
+<td align="center"></td>
+<td align="right">使用 head 替代 get</td>
+</tr>
+<tr>
+<td>-x</td>
+<td align="center">attributes</td>
+<td align="right">要作为表属性插入的字符串</td>
+</tr>
+<tr>
+<td>-y</td>
+<td align="center">attributes</td>
+<td align="right">要作为tr属性插入的字符串</td>
+</tr>
+<tr>
+<td>-z</td>
+<td align="center">attributes</td>
+<td align="right">要作为td或th属性插入的字符串</td>
+</tr>
+<tr>
+<td>-C</td>
+<td align="center">attribute</td>
+<td align="right">添加cookie，例如“apache=1234”。（可重复）</td>
+</tr>
+<tr>
+<td>-H</td>
+<td align="center">attribute</td>
+<td align="right">添加任意标题行，例如在所有普通标题行后插入“accept encoding:gzip”。（可重复）</td>
+</tr>
+<tr>
+<td>-A</td>
+<td align="center">attribute</td>
+<td align="right">添加基本的WWW认证，属性是以冒号分隔的用户名和密码。</td>
+</tr>
+<tr>
+<td>-P</td>
+<td align="center">attribute</td>
+<td align="right">添加基本代理身份验证，属性是以冒号分隔的用户名和密码。</td>
+</tr>
+<tr>
+<td>-X</td>
+<td align="center">proxy:port</td>
+<td align="right">要使用的代理服务器和端口号</td>
+</tr>
+<tr>
+<td>-V</td>
+<td align="center"></td>
+<td align="right">打印版本号并退出</td>
+</tr>
+<tr>
+<td>-k</td>
+<td align="center"></td>
+<td align="right">使用 HTTP 保持连接功能</td>
+</tr>
+<tr>
+<td>-d</td>
+<td align="center"></td>
+<td align="right">不要显示服务台的百分比。</td>
+</tr>
+<tr>
+<td>-S</td>
+<td align="center"></td>
+<td align="right">不要显示置信估计值和警告。</td>
+</tr>
+<tr>
+<td>-q</td>
+<td align="center"></td>
+<td align="right">执行超过150个请求时不显示进度</td>
+</tr>
+<tr>
+<td>-l</td>
+<td align="center"></td>
+<td align="right">接受可变文档长度（用于动态页面）</td>
+</tr>
+<tr>
+<td>-g</td>
+<td align="center">filename</td>
+<td align="right">将收集的数据输出到gnuplot格式文件。</td>
+</tr>
+<tr>
+<td>-e</td>
+<td align="center">filename</td>
+<td align="right">输出提供百分比的csv文件</td>
+</tr>
+<tr>
+<td>-r</td>
+<td align="center"></td>
+<td align="right">在套接字接收错误时不退出</td>
+</tr>
+<tr>
+<td>-m</td>
+<td align="center">method</td>
+<td align="right">方法名</td>
+</tr>
+<tr>
+<td>-h</td>
+<td align="center"></td>
+<td align="right">显示使用信息(this message)</td>
+</tr>
+</tbody></table>
+<h3 id="例子解析"><a href="#例子解析" class="headerlink" title="例子解析"></a>例子解析</h3><p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Benchmarking 10.0.0.146</span><br><span class="line">Completed 1000 requests</span><br><span class="line">...</span><br><span class="line">Finished 10000 requests</span><br><span class="line"></span><br><span class="line">（已经完成的请求）</span><br><span class="line"></span><br><span class="line">Server Software       服务器软件</span><br><span class="line">Server Hostname       服务器 IP 地址</span><br><span class="line">Server Port           服务器端口</span><br><span class="line"></span><br><span class="line">Document Path         文件路径</span><br><span class="line">Document Length       文件大小</span><br><span class="line"></span><br><span class="line">Concurrency Level     并发等级</span><br><span class="line">Time taken for tests  测试用时（秒）</span><br><span class="line">Complete requests     完成的请求返回</span><br><span class="line">Failed requests       失败的请求返回</span><br><span class="line">Total transferred     总共传输字节</span><br><span class="line">HTML transferred      HTML 传输字节</span><br><span class="line">Requests per second   每秒传输量</span><br></pre></td></tr></table></figure></p>
+<img src="/tutorial/apache-bench-manual/preview.png"><br>
+
+<p><strong>Win 系统</strong><br>Win 系统需要到 Apache 官网下载软件包。</p>
+<p><strong>Mac 系统</strong><br>Mac 系统自带 Apache</p>
+
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/apache/">#apache</a></span>
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/ab/">#ab</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/tutorial/http-distributed-service/">分布式服务测试与记录</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/tutorial/grammar/markdown-grammar/">Markdown 基本语法</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 Vincent Cheng&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/vc0754">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站内搜索">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>
