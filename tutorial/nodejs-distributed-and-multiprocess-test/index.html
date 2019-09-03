@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>NodeJS 分布式和多进程的测试与记录 - Vincent</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="Record, learn and share the technology">
+
+
+
+
+
+    <meta name="description" content="目的：测试与记录高并发环境下，分布式 与 多进程 的情况测试：对来访数据进行记录，类似日志的处理目录：  测试环境 — 软、硬件 单服务器单进程 单服务器多进程 多服务器单进程 多服务器多进程  备注：该测试不含数据库操作">
+<meta name="keywords" content="distributed">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NodeJS 分布式和多进程的测试与记录">
+<meta property="og:url" content="https://vincent0754.github.io/tutorial/nodejs-distributed-and-multiprocess-test/index.html">
+<meta property="og:site_name" content="Vincent">
+<meta property="og:description" content="目的：测试与记录高并发环境下，分布式 与 多进程 的情况测试：对来访数据进行记录，类似日志的处理目录：  测试环境 — 软、硬件 单服务器单进程 单服务器多进程 多服务器单进程 多服务器多进程  备注：该测试不含数据库操作">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="https://vincent0754.github.io/tutorial/nodejs-distributed-and-multiprocess-test/thumbnail.png">
+<meta property="og:updated_time" content="2019-09-03T09:35:11.031Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NodeJS 分布式和多进程的测试与记录">
+<meta name="twitter:description" content="目的：测试与记录高并发环境下，分布式 与 多进程 的情况测试：对来访数据进行记录，类似日志的处理目录：  测试环境 — 软、硬件 单服务器单进程 单服务器多进程 多服务器单进程 多服务器多进程  备注：该测试不含数据库操作">
+<meta name="twitter:image" content="https://vincent0754.github.io/tutorial/nodejs-distributed-and-multiprocess-test/thumbnail.png">
+
+
+
+
+
+<link rel="icon" href="/favicon.png">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    VC
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">归档</a>
+            
+            <a class="navbar-item " href="/categories/tutorial/">笔记</a>
+            
+            <a class="navbar-item " href="/categories/portfolio/design">设计</a>
+            
+            <a class="navbar-item " href="/categories/portfolio/development">开发</a>
+            
+            <a class="navbar-item " href="/about">关于</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜索" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/vc0754">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            NodeJS 分布式和多进程的测试与记录
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2019-08-20T09:12:10.000Z" itemprop="datePublished">8月 20 2019</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/tutorial/">tutorial</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            9 分钟 读完 (约 1326 字)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <img src="/tutorial/nodejs-distributed-and-multiprocess-test/thumbnail.png"><br>
+
+<p>目的：测试与记录高并发环境下，<code>分布式</code> 与 <code>多进程</code> 的情况<br>测试：对来访数据进行记录，类似日志的处理<br>目录：</p>
+<ul>
+<li>测试环境 — 软、硬件</li>
+<li>单服务器单进程</li>
+<li>单服务器多进程</li>
+<li>多服务器单进程</li>
+<li>多服务器多进程</li>
+</ul>
+<p>备注：该测试不含数据库操作</p>
+<a id="more"></a>
+<h3 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h3><table>
+<thead>
+<tr>
+<th>-</th>
+<th align="center">CPU</th>
+<th align="center">RAM(GB)</th>
+<th align="center">OS</th>
+<th align="center">OS type</th>
+<th align="center">NodeJS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Server 00</td>
+<td align="center">Intel(R) Core(TM) i5-8250U <br> 1.60GHz x 4 1.80GHz</td>
+<td align="center">8.00</td>
+<td align="center">Win10</td>
+<td align="center">x64</td>
+<td align="center">v8.11.4</td>
+</tr>
+<tr>
+<td>Server 01</td>
+<td align="center">Intel(R) Core(TM) i5-3470S <br> 2.90GHz x 4 2.90GHz</td>
+<td align="center">8.00</td>
+<td align="center">Win10</td>
+<td align="center">x64</td>
+<td align="center">v10.16.0</td>
+</tr>
+<tr>
+<td>Server 02</td>
+<td align="center">Intel(R) Core(TM) i5-3470S <br> 3.20GHz x 4</td>
+<td align="center">9.60</td>
+<td align="center">Ubuntu 18.04.2 LTS</td>
+<td align="center">x64</td>
+<td align="center">v10.16.0</td>
+</tr>
+<tr>
+<td>ApacheBench</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">v2.3</td>
+</tr>
+<tr>
+<td>nginx</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">1.14.2</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="单服务器，单进程（利用-Server-02）"><a href="#单服务器，单进程（利用-Server-02）" class="headerlink" title="单服务器，单进程（利用 Server 02）"></a>单服务器，单进程（利用 Server 02）</h3><p><strong>Server 搭建</strong><br>利用 <code>http</code> 模块搭建服务端。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">const http = require(&apos;http&apos;)</span><br><span class="line">const fs = require(&apos;fs&apos;)</span><br><span class="line"></span><br><span class="line">let num = 0</span><br><span class="line"></span><br><span class="line">http.createServer((req, res) =&gt; &#123;</span><br><span class="line">  ++num</span><br><span class="line">  const file = &apos;./log/file.txt&apos;</span><br><span class="line">  const data = JSON.stringify(Object.assign(&#123;</span><br><span class="line">    num,</span><br><span class="line">    create_time: new Date()</span><br><span class="line">  &#125;, req.headers)) + &quot;\n&quot;</span><br><span class="line">  </span><br><span class="line">  fs.open(file, &apos;a&apos;, (err, fd) =&gt; &#123;</span><br><span class="line">    if (err) throw err</span><br><span class="line">    </span><br><span class="line">    fs.appendFile(file, data , &apos;utf8&apos;, (err) =&gt; &#123;</span><br><span class="line">      if (err) throw err</span><br><span class="line"></span><br><span class="line">      fs.close(fd, (err) =&gt; &#123;</span><br><span class="line">        if (err) throw err</span><br><span class="line">        </span><br><span class="line">        res.writeHead(200, &#123;&apos;Content-Type&apos;: &apos;text/plain&apos;&#125;)</span><br><span class="line">        res.end(&apos;success&apos;)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;).listen(8080, () =&gt; &#123;</span><br><span class="line">  console.log(&apos;&lt;&lt;&lt; [ node server ready ] &lt;&lt;&lt;&apos;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p><strong>ApacheBench 测试</strong><br>执行 2000 并发，10000 请求的 Http Keep-Alive 压测</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ab -c2000 -n10000 -k http://[ip:port]/</span><br></pre></td></tr></table></figure></p>
+<p>返回结果</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">This is ApacheBench, Version 2.3 &lt;$Revision: 1826310 $&gt;</span><br><span class="line">Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/</span><br><span class="line">Licensed to The Apache Software Foundation, http://www.apache.org/</span><br><span class="line"></span><br><span class="line">Benchmarking [ip] (be patient)</span><br><span class="line">Completed 1000 requests</span><br><span class="line">Completed 2000 requests</span><br><span class="line">Completed 3000 requests</span><br><span class="line">Completed 4000 requests</span><br><span class="line">Completed 5000 requests</span><br><span class="line">Completed 6000 requests</span><br><span class="line">Completed 7000 requests</span><br><span class="line">Completed 8000 requests</span><br><span class="line">Completed 9000 requests</span><br><span class="line">Completed 10000 requests</span><br><span class="line">Finished 10000 requests</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Server Software:</span><br><span class="line">Server Hostname:        [ip]</span><br><span class="line">Server Port:            [port]</span><br><span class="line"></span><br><span class="line">Document Path:          /</span><br><span class="line">Document Length:        7 bytes</span><br><span class="line"></span><br><span class="line">Concurrency Level:      2000</span><br><span class="line">Time taken for tests:   25.023 seconds # 总共花费 25 秒左右</span><br><span class="line">Complete requests:      10000</span><br><span class="line">Failed requests:        0</span><br><span class="line">Total transferred:      1080000 bytes</span><br><span class="line">HTML transferred:       70000 bytes</span><br><span class="line">Requests per second:    399.63 [#/sec] (mean) # 平均每秒接受请求个数 400，相当于LR中的每秒事务数</span><br><span class="line">Time per request:       5004.594 [ms] (mean) # 平均每次请求花费 5005 毫秒，相当于LR中的平均事务响应时间</span><br><span class="line">Time per request:       2.502 [ms] (mean, across all concurrent requests) # 每个连接请求实际运行时间的平均值</span><br><span class="line">Transfer rate:          42.15 [Kbytes/sec] received # 平均每秒网络上的流量，可以帮助排除是否存在网络流量过大导致响应时间延长的问题</span><br><span class="line"></span><br><span class="line">Connection Times (ms)</span><br><span class="line">              min  mean[+/-sd] median   max</span><br><span class="line">Connect:        1    2   0.5      2      13</span><br><span class="line">Processing:   112 4510 1145.8   4973    5065</span><br><span class="line">Waiting:       22 2509 1425.1   2515    5040</span><br><span class="line">Total:        114 4513 1145.8   4976    5067</span><br><span class="line"></span><br><span class="line">Percentage of the requests served within a certain time (ms)</span><br><span class="line">  50%   4976</span><br><span class="line">  66%   5013</span><br><span class="line">  75%   5023</span><br><span class="line">  80%   5034</span><br><span class="line">  90%   5044</span><br><span class="line">  95%   5050</span><br><span class="line">  98%   5054</span><br><span class="line">  99%   5061</span><br><span class="line"> 100%   5067 (longest request)</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="单服务器，多进程（利用-Server-02）"><a href="#单服务器，多进程（利用-Server-02）" class="headerlink" title="单服务器，多进程（利用 Server 02）"></a>单服务器，多进程（利用 Server 02）</h3><p><strong>Server 搭建</strong><br>利用 <code>cluster</code> 模块进行多进程处理。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">const cluster = require(&apos;cluster&apos;)</span><br><span class="line">const http = require(&apos;http&apos;)</span><br><span class="line">const numCPUs = require(&apos;os&apos;).cpus().length</span><br><span class="line">const fs = require(&apos;fs&apos;)</span><br><span class="line"></span><br><span class="line">if (cluster.isMaster) &#123;</span><br><span class="line">  for (let i = 0; i &lt; numCPUs; i++) &#123;</span><br><span class="line">    cluster.fork()</span><br><span class="line">  &#125;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">  let num = 0</span><br><span class="line">  http.createServer((req, res) =&gt; &#123;</span><br><span class="line">    ++num</span><br><span class="line">    const file = &apos;./log/file.txt&apos;</span><br><span class="line">    const data = JSON.stringify(Object.assign(&#123;</span><br><span class="line">      num,</span><br><span class="line">      create_time: new Date()</span><br><span class="line">    &#125;, req.headers)) + &quot;\n&quot;</span><br><span class="line">    </span><br><span class="line">    fs.open(file, &apos;a&apos;, (err, fd) =&gt; &#123;</span><br><span class="line">      if (err) throw err</span><br><span class="line">      </span><br><span class="line">      fs.appendFile(file, data , &apos;utf8&apos;, (err) =&gt; &#123;</span><br><span class="line">        if (err) throw err</span><br><span class="line"></span><br><span class="line">        fs.close(fd, (err) =&gt; &#123;</span><br><span class="line">          if (err) throw err</span><br><span class="line">          </span><br><span class="line">          res.writeHead(200, &#123;&apos;Content-Type&apos;: &apos;text/plain&apos;&#125;)</span><br><span class="line">          res.end(`$&#123;process.pid&#125; success`)</span><br><span class="line">          // process.kill(process.pid)</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;).listen(8080, () =&gt; &#123;</span><br><span class="line">    console.log(`&lt;&lt;&lt; [ node server ready by pid:$&#123;process.pid&#125; ] &lt;&lt;&lt;`)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>ApacheBench 测试</strong><br>执行 2000 并发，10000 请求的 Http Keep-Alive 压测</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ab -c2000 -n10000 -k http://[ip:port]/</span><br></pre></td></tr></table></figure></p>
+<p>返回结果</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">This is ApacheBench, Version 2.3 &lt;$Revision: 1826310 $&gt;</span><br><span class="line">Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/</span><br><span class="line">Licensed to The Apache Software Foundation, http://www.apache.org/</span><br><span class="line"></span><br><span class="line">Benchmarking [ip] (be patient)</span><br><span class="line">Completed 1000 requests</span><br><span class="line">Completed 2000 requests</span><br><span class="line">Completed 3000 requests</span><br><span class="line">Completed 4000 requests</span><br><span class="line">Completed 5000 requests</span><br><span class="line">Completed 6000 requests</span><br><span class="line">Completed 7000 requests</span><br><span class="line">Completed 8000 requests</span><br><span class="line">Completed 9000 requests</span><br><span class="line">Completed 10000 requests</span><br><span class="line">Finished 10000 requests</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Server Software:</span><br><span class="line">Server Hostname:        [ip]</span><br><span class="line">Server Port:            [port]</span><br><span class="line"></span><br><span class="line">Document Path:          /</span><br><span class="line">Document Length:        12 bytes</span><br><span class="line"></span><br><span class="line">Concurrency Level:      2000</span><br><span class="line">Time taken for tests:   26.649 seconds # 总共花费 27 秒左右</span><br><span class="line">Complete requests:      10000</span><br><span class="line">Failed requests:        0</span><br><span class="line">Keep-Alive requests:    0</span><br><span class="line">Total transferred:      1130000 bytes</span><br><span class="line">HTML transferred:       120000 bytes</span><br><span class="line">Requests per second:    375.26 [#/sec] (mean) # 平均每秒接受请求个数 375</span><br><span class="line">Time per request:       5329.704 [ms] (mean) # 平均每次请求花费 5330 毫秒</span><br><span class="line">Time per request:       2.665 [ms] (mean, across all concurrent requests)</span><br><span class="line">Transfer rate:          41.41 [Kbytes/sec] received</span><br><span class="line"></span><br><span class="line">Connection Times (ms)</span><br><span class="line">              min  mean[+/-sd] median   max</span><br><span class="line">Connect:        1    2   0.8      2      33</span><br><span class="line">Processing:   111 4833 1359.5   5026    6156</span><br><span class="line">Waiting:       23 2615 1544.7   2565    5868</span><br><span class="line">Total:        113 4835 1359.6   5028    6159</span><br><span class="line"></span><br><span class="line">Percentage of the requests served within a certain time (ms)</span><br><span class="line">  50%   5028</span><br><span class="line">  66%   5520</span><br><span class="line">  75%   5747</span><br><span class="line">  80%   5887</span><br><span class="line">  90%   5990</span><br><span class="line">  95%   6050</span><br><span class="line">  98%   6140</span><br><span class="line">  99%   6149</span><br><span class="line"> 100%   6159 (longest request)</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="多服务器，单进程"><a href="#多服务器，单进程" class="headerlink" title="多服务器，单进程"></a>多服务器，单进程</h3><p><strong>Server 搭建</strong><br>利用 <code>nginx</code> 进行分发。</p>
+<p><strong>ApacheBench 测试</strong><br>执行 2000 并发，10000 请求的 Http Keep-Alive 压测</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ab -c2000 -n10000 -k http://[ip:port]/</span><br></pre></td></tr></table></figure></p>
+<p>返回结果</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">This is ApacheBench, Version 2.3 &lt;$Revision: 1826310 $&gt;</span><br><span class="line">Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/</span><br><span class="line">Licensed to The Apache Software Foundation, http://www.apache.org/</span><br><span class="line"></span><br><span class="line">Benchmarking [ip] (be patient)</span><br><span class="line">Completed 1000 requests</span><br><span class="line">Completed 2000 requests</span><br><span class="line">Completed 3000 requests</span><br><span class="line">Completed 4000 requests</span><br><span class="line">Completed 5000 requests</span><br><span class="line">Completed 6000 requests</span><br><span class="line">Completed 7000 requests</span><br><span class="line">Completed 8000 requests</span><br><span class="line">Completed 9000 requests</span><br><span class="line">Completed 10000 requests</span><br><span class="line">Finished 10000 requests</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Server Software:        nginx/1.14.2</span><br><span class="line">Server Hostname:        [ip]</span><br><span class="line">Server Port:            [port]</span><br><span class="line"></span><br><span class="line">Document Path:          /</span><br><span class="line">Document Length:        7 bytes</span><br><span class="line"></span><br><span class="line">Concurrency Level:      2000</span><br><span class="line">Time taken for tests:   8.483 seconds # 总共花费 8 秒左右</span><br><span class="line">Complete requests:      10000</span><br><span class="line">Failed requests:        0</span><br><span class="line">Keep-Alive requests:    0</span><br><span class="line">Total transferred:      1300000 bytes</span><br><span class="line">HTML transferred:       70000 bytes</span><br><span class="line">Requests per second:    1178.82 [#/sec] (mean) # 平均每秒接受请求个数 1178</span><br><span class="line">Time per request:       1696.606 [ms] (mean) # 平均每次请求花费 1696 毫秒</span><br><span class="line">Time per request:       0.848 [ms] (mean, across all concurrent requests)</span><br><span class="line">Transfer rate:          149.66 [Kbytes/sec] received</span><br><span class="line"></span><br><span class="line">Connection Times (ms)</span><br><span class="line">              min  mean[+/-sd] median   max</span><br><span class="line">Connect:        0    1  16.6      0     502</span><br><span class="line">Processing:   112 1509 456.6   1581    2099</span><br><span class="line">Waiting:       48 1029 515.5    840    1994</span><br><span class="line">Total:        112 1510 456.8   1581    2099</span><br><span class="line"></span><br><span class="line">Percentage of the requests served within a certain time (ms)</span><br><span class="line">  50%   1581</span><br><span class="line">  66%   1592</span><br><span class="line">  75%   1594</span><br><span class="line">  80%   1608</span><br><span class="line">  90%   2050</span><br><span class="line">  95%   2085</span><br><span class="line">  98%   2093</span><br><span class="line">  99%   2094</span><br><span class="line"> 100%   2099 (longest request)</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="多服务器，多进程"><a href="#多服务器，多进程" class="headerlink" title="多服务器，多进程"></a>多服务器，多进程</h3><p><strong>Server 搭建</strong><br>利用 <code>nginx</code> 进行分发。</p>
+<p><strong>ApacheBench 测试</strong><br>执行 2000 并发，10000 请求的 Http Keep-Alive 压测</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ab -c2000 -n10000 -k http://[ip:port]/</span><br></pre></td></tr></table></figure></p>
+<p>返回结果</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">This is ApacheBench, Version 2.3 &lt;$Revision: 1826310 $&gt;</span><br><span class="line">Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/</span><br><span class="line">Licensed to The Apache Software Foundation, http://www.apache.org/</span><br><span class="line"></span><br><span class="line">Benchmarking [ip] (be patient)</span><br><span class="line">Completed 1000 requests</span><br><span class="line">Completed 2000 requests</span><br><span class="line">Completed 3000 requests</span><br><span class="line">Completed 4000 requests</span><br><span class="line">Completed 5000 requests</span><br><span class="line">Completed 6000 requests</span><br><span class="line">Completed 7000 requests</span><br><span class="line">Completed 8000 requests</span><br><span class="line">Completed 9000 requests</span><br><span class="line">Completed 10000 requests</span><br><span class="line">Finished 10000 requests</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Server Software:        nginx/1.14.2</span><br><span class="line">Server Hostname:        [ip]</span><br><span class="line">Server Port:            [port]</span><br><span class="line"></span><br><span class="line">Document Path:          /</span><br><span class="line">Document Length:        13 bytes</span><br><span class="line"></span><br><span class="line">Concurrency Level:      2000</span><br><span class="line">Time taken for tests:   7.978 seconds # 总共花费 8 秒左右</span><br><span class="line">Complete requests:      10000</span><br><span class="line">Failed requests:        7450</span><br><span class="line">   (Connect: 0, Receive: 0, Length: 7450, Exceptions: 0)</span><br><span class="line">Keep-Alive requests:    0</span><br><span class="line">Total transferred:      1352550 bytes</span><br><span class="line">HTML transferred:       122550 bytes</span><br><span class="line">Requests per second:    1253.45 [#/sec] (mean) # 平均每秒接受请求个数 1253</span><br><span class="line">Time per request:       1595.600 [ms] (mean) # 平均每次请求花费 1595 毫秒</span><br><span class="line">Time per request:       0.798 [ms] (mean, across all concurrent requests)</span><br><span class="line">Transfer rate:          165.56 [Kbytes/sec] received</span><br><span class="line"></span><br><span class="line">Connection Times (ms)</span><br><span class="line">              min  mean[+/-sd] median   max</span><br><span class="line">Connect:        0    1  15.8      0     502</span><br><span class="line">Processing:   113 1413 468.6   1587    2100</span><br><span class="line">Waiting:       46  952 517.6    860    1983</span><br><span class="line">Total:        113 1414 468.6   1587    2100</span><br><span class="line"></span><br><span class="line">Percentage of the requests served within a certain time (ms)</span><br><span class="line">  50%   1587</span><br><span class="line">  66%   1592</span><br><span class="line">  75%   1595</span><br><span class="line">  80%   1596</span><br><span class="line">  90%   2021</span><br><span class="line">  95%   2050</span><br><span class="line">  98%   2099</span><br><span class="line">  99%   2099</span><br><span class="line"> 100%   2100 (longest request)</span><br></pre></td></tr></table></figure></p>
+<p>结论<br>单服务器，多进程并没有比单进程更有效的提升<br>多服务器（2台），提升效率明显（接近 50% ）</p>
+<div class="part-portfolio part-articles">
+  <h2>相关文章</h2>
+  <hr style="width:100%; clear:both;">
+  <a href="/tutorial/nginx/http-load-balancing-with-nginx/">
+    <div class="thumbnail" style="background-image:url('/tutorial/nginx/http-load-balancing-with-nginx/thumbnail.jpg')"></div>
+    <h3>Nginx 均衡负载视频教程</h3>
+  </a>
+  <a href="/tutorial/apache-bench-manual/">
+    <div class="thumbnail" style="background-image:url('/tutorial/apache-bench-manual/thumbnail.jpg')"></div>
+    <h3>Apache Bench （ab） 使用说明</h3>
+  </a>
+</div>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/distributed/">#distributed</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop is-hidden-mobile article-nav-prev">
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/tutorial/apache-bench-manual/">Apache Bench （ab） 使用说明</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 Vincent Cheng&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/vc0754">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站内搜索">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>
