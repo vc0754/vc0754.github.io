@@ -2,7 +2,7 @@
 <html class="has-navbar-fixed-top">
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-<title>归档: 2019 - Vincent</title>
+<title>JavaScript array - Vincent</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
@@ -16,16 +16,20 @@
 
 
 
-    <meta name="description" content="Record, learn and share the technology">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Vincent">
-<meta property="og:url" content="https://vincent0754.github.io/archives/2019/index.html">
+    <meta name="description" content="参考http://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript array">
+<meta property="og:url" content="https://vincent0754.github.io/tutorial/grammar/javascript-array/index.html">
 <meta property="og:site_name" content="Vincent">
-<meta property="og:description" content="Record, learn and share the technology">
+<meta property="og:description" content="参考http://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array">
 <meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="https://vincent0754.github.io/tutorial/grammar/javascript-array/thumbnail.jpg">
+<meta property="og:updated_time" content="2019-10-10T07:58:54.699Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Vincent">
-<meta name="twitter:description" content="Record, learn and share the technology">
+<meta name="twitter:title" content="JavaScript array">
+<meta name="twitter:description" content="参考http://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array">
+<meta name="twitter:image" content="https://vincent0754.github.io/tutorial/grammar/javascript-array/thumbnail.jpg">
 
 
 
@@ -118,76 +122,70 @@
 
     <section class="section">
     <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            JavaScript array
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2018-09-27T06:32:14.000Z" itemprop="datePublished">9月 27 2018</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/tutorial/">tutorial</a><span>></span><a class="article-category-link" href="/categories/tutorial/grammar/">grammar</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            1 分钟 读完 (约 147 字)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <img src="/tutorial/grammar/javascript-array/thumbnail.jpg"><br>
+
+<p>参考<br><a href="http://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array" target="_blank" rel="noopener">http://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array</a></p>
+<a id="more"></a>
+
+<h3 id="Array-from"><a href="#Array-from" class="headerlink" title="Array.from()"></a>Array.from()</h3><h3 id="Array-isArray"><a href="#Array-isArray" class="headerlink" title="Array.isArray()"></a>Array.isArray()</h3><h3 id="Array-of"><a href="#Array-of" class="headerlink" title="Array.of()"></a>Array.of()</h3><h3 id="Array-prototype-concat"><a href="#Array-prototype-concat" class="headerlink" title="Array.prototype.concat()"></a>Array.prototype.concat()</h3><h3 id="Array-prototype-copyWithin"><a href="#Array-prototype-copyWithin" class="headerlink" title="Array.prototype.copyWithin()"></a>Array.prototype.copyWithin()</h3><h3 id="Array-prototype-entries"><a href="#Array-prototype-entries" class="headerlink" title="Array.prototype.entries()"></a>Array.prototype.entries()</h3><h3 id="Array-prototype-every"><a href="#Array-prototype-every" class="headerlink" title="Array.prototype.every()"></a>Array.prototype.every()</h3><h3 id="Array-prototype-fill"><a href="#Array-prototype-fill" class="headerlink" title="Array.prototype.fill()"></a>Array.prototype.fill()</h3><h3 id="Array-prototype-push"><a href="#Array-prototype-push" class="headerlink" title="Array.prototype.push()"></a>Array.prototype.push()</h3><h3 id="Array-prototype-pop"><a href="#Array-prototype-pop" class="headerlink" title="Array.prototype.pop()"></a>Array.prototype.pop()</h3><h3 id="Array-prototype-shift"><a href="#Array-prototype-shift" class="headerlink" title="Array.prototype.shift()"></a>Array.prototype.shift()</h3><h3 id="Array-prototype-unshift"><a href="#Array-prototype-unshift" class="headerlink" title="Array.prototype.unshift()"></a>Array.prototype.unshift()</h3><h3 id="Array-prototype-splice"><a href="#Array-prototype-splice" class="headerlink" title="Array.prototype.splice()"></a>Array.prototype.splice()</h3><h3 id="Array-prototype-split"><a href="#Array-prototype-split" class="headerlink" title="Array.prototype.split()"></a>Array.prototype.split()</h3><h3 id="Array-prototype-sort"><a href="#Array-prototype-sort" class="headerlink" title="Array.prototype.sort()"></a>Array.prototype.sort()</h3><h3 id="Array-prototype-reverse"><a href="#Array-prototype-reverse" class="headerlink" title="Array.prototype.reverse()"></a>Array.prototype.reverse()</h3><h3 id="Array-prototype-slice"><a href="#Array-prototype-slice" class="headerlink" title="Array.prototype.slice()"></a>Array.prototype.slice()</h3><h3 id="Array-prototype-forEach"><a href="#Array-prototype-forEach" class="headerlink" title="Array.prototype.forEach()"></a>Array.prototype.forEach()</h3><h3 id="Array-prototype-map"><a href="#Array-prototype-map" class="headerlink" title="Array.prototype.map()"></a>Array.prototype.map()</h3><h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><p><code>var newArray = arr.map(callback(element[, index[, array]])[, thisArg])</code></p>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var filtered = [1, 4, 9, 16].map(element =&gt; &#123;</span><br><span class="line">  return element * 2</span><br><span class="line">&#125;)</span><br><span class="line">→ [2, 8, 18, 32]</span><br></pre></td></tr></table></figure></p>
+<h3 id="Array-prototype-filter"><a href="#Array-prototype-filter" class="headerlink" title="Array.prototype.filter()"></a>Array.prototype.filter()</h3><h4 id="语法-1"><a href="#语法-1" class="headerlink" title="语法"></a>语法</h4><p><code>var newArray = arr.filter(callback(element[, index[, array]])[, thisArg])</code></p>
+<h4 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h4><p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var filtered = [12, 5, 8, 130, 44].filter(element =&gt; &#123;</span><br><span class="line">  return element &gt;= 10</span><br><span class="line">&#125;)</span><br><span class="line">→ [12, 130, 44]</span><br></pre></td></tr></table></figure></p>
+<h3 id="Array-prototype-come"><a href="#Array-prototype-come" class="headerlink" title="Array.prototype.come()"></a>Array.prototype.come()</h3><h3 id="Array-prototype-reduce"><a href="#Array-prototype-reduce" class="headerlink" title="Array.prototype.reduce()"></a>Array.prototype.reduce()</h3><h3 id="Array-prototype-reduceRight"><a href="#Array-prototype-reduceRight" class="headerlink" title="Array.prototype.reduceRight()"></a>Array.prototype.reduceRight()</h3><h3 id="Array-prototype-indexOf"><a href="#Array-prototype-indexOf" class="headerlink" title="Array.prototype.indexOf()"></a>Array.prototype.indexOf()</h3><h3 id="Array-prototype-lastIndexOf"><a href="#Array-prototype-lastIndexOf" class="headerlink" title="Array.prototype.lastIndexOf()"></a>Array.prototype.lastIndexOf()</h3><h3 id="Array-prototype-find"><a href="#Array-prototype-find" class="headerlink" title="Array.prototype.find()"></a>Array.prototype.find()</h3><h3 id="Array-prototype-findIndex"><a href="#Array-prototype-findIndex" class="headerlink" title="Array.prototype.findIndex()"></a>Array.prototype.findIndex()</h3><h3 id="Array-prototype-includes"><a href="#Array-prototype-includes" class="headerlink" title="Array.prototype.includes()"></a>Array.prototype.includes()</h3><h3 id="Array-prototype-keys"><a href="#Array-prototype-keys" class="headerlink" title="Array.prototype.keys()"></a>Array.prototype.keys()</h3><h3 id="Array-prototype-values"><a href="#Array-prototype-values" class="headerlink" title="Array.prototype.values()"></a>Array.prototype.values()</h3>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/javascript/">#javascript</a></span>
+    
+    </div>
     
     
-        <div class="archive content">
-            <h4 class="title is-4" id="2019">2019</h4>
-            <div class="articles">
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
             
-                <div class="article content>">
-                    <time class="is-text-small" datetime="2019-09-21T02:47:23.000Z" itemprop="datePublished">
-                        9月 21</time>
-                    <h6 class="title is-6"><a href="/uncategorized/nodejs-microservices/">基于 Node.js 的微服务框架</a></h6>
-                </div>
+            <a href="/portfolio/design/judicial-appraisal-institute/">广东韩江司法鉴定所 - 网站设计</a>
             
-                <div class="article content>">
-                    <time class="is-text-small" datetime="2019-08-20T09:12:10.000Z" itemprop="datePublished">
-                        8月 20</time>
-                    <h6 class="title is-6"><a href="/tutorial/nodejs-distributed-and-multiprocess-test/">NodeJS 分布式和多进程的测试与记录</a></h6>
-                </div>
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
             
-                <div class="article content>">
-                    <time class="is-text-small" datetime="2019-08-19T10:19:21.000Z" itemprop="datePublished">
-                        8月 19</time>
-                    <h6 class="title is-6"><a href="/tutorial/apache-bench-manual/">Apache Bench （ab） 使用说明</a></h6>
-                </div>
+            <a href="/tutorial/nginx/http-load-balancing-with-nginx/">Nginx 均衡负载视频教程</a>
             
-                <div class="article content>">
-                    <time class="is-text-small" datetime="2019-08-19T05:27:41.000Z" itemprop="datePublished">
-                        8月 19</time>
-                    <h6 class="title is-6"><a href="/tutorial/grammar/markdown-grammar/">Markdown 基本语法</a></h6>
-                </div>
-            
-                <div class="article content>">
-                    <time class="is-text-small" datetime="2019-07-09T07:57:11.000Z" itemprop="datePublished">
-                        7月 9</time>
-                    <h6 class="title is-6"><a href="/portfolio/development/purplevineip-website/">紫藤知识产权运营（深圳）有限公司 - 网站开发</a></h6>
-                </div>
-            
-                <div class="article content>">
-                    <time class="is-text-small" datetime="2019-05-19T09:20:12.000Z" itemprop="datePublished">
-                        5月 19</time>
-                    <h6 class="title is-6"><a href="/portfolio/development/race-game/">移动竞速 - H5 游戏开发</a></h6>
-                </div>
-            
-                <div class="article content>">
-                    <time class="is-text-small" datetime="2019-04-25T05:47:04.000Z" itemprop="datePublished">
-                        4月 25</time>
-                    <h6 class="title is-6"><a href="/portfolio/development/bjgw-wechat-mini-application/">铂金港湾 - 小程序开发</a></h6>
-                </div>
-            
-                <div class="article content>">
-                    <time class="is-text-small" datetime="2019-03-31T05:32:16.000Z" itemprop="datePublished">
-                        3月 31</time>
-                    <h6 class="title is-6"><a href="/portfolio/development/chaoshan-tea-ali-mini-application/">潮汕茶事 - 小程序开发</a></h6>
-                </div>
-            
-                <div class="article content>">
-                    <time class="is-text-small" datetime="2019-02-27T08:20:30.000Z" itemprop="datePublished">
-                        2月 27</time>
-                    <h6 class="title is-6"><a href="/portfolio/design/myshare-logo-design/">深圳蒂脉时代科技控股 - 标志设计</a></h6>
-                </div>
-            
-                <div class="article content>">
-                    <time class="is-text-small" datetime="2019-02-04T07:15:28.000Z" itemprop="datePublished">
-                        2月 4</time>
-                    <h6 class="title is-6"><a href="/portfolio/development/dont-eat-birds-h5-application/">让候鸟飞公益宣传 - H5 开发</a></h6>
-                </div>
-            
-            </div>
-        </div>
+        </span>
+    </div>
     
-    
+</article>
+
+
+
+
     </div>
 </section>
     <footer class="footer">

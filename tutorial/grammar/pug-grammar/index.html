@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>pug 语法 - Vincent</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="Record, learn and share the technology">
+
+
+
+
+
+    <meta name="description" content="pug 是一个 JavaScript 的高性能模板引擎，被使用在 Node.js 和 浏览器 项目中。是由 Jade 重命名而来 参考https://pugjs.org">
+<meta name="keywords" content="pug">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pug 语法">
+<meta property="og:url" content="https://vincent0754.github.io/tutorial/grammar/pug-grammar/index.html">
+<meta property="og:site_name" content="Vincent">
+<meta property="og:description" content="pug 是一个 JavaScript 的高性能模板引擎，被使用在 Node.js 和 浏览器 项目中。是由 Jade 重命名而来 参考https://pugjs.org">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="https://vincent0754.github.io/tutorial/grammar/pug-grammar/thumbnail.jpg">
+<meta property="og:updated_time" content="2019-10-10T07:43:55.991Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="pug 语法">
+<meta name="twitter:description" content="pug 是一个 JavaScript 的高性能模板引擎，被使用在 Node.js 和 浏览器 项目中。是由 Jade 重命名而来 参考https://pugjs.org">
+<meta name="twitter:image" content="https://vincent0754.github.io/tutorial/grammar/pug-grammar/thumbnail.jpg">
+
+
+
+
+
+<link rel="icon" href="/favicon.png">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    VC
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">归档</a>
+            
+            <a class="navbar-item " href="/categories/tutorial/">笔记</a>
+            
+            <a class="navbar-item " href="/categories/portfolio/design">设计</a>
+            
+            <a class="navbar-item " href="/categories/portfolio/development">开发</a>
+            
+            <a class="navbar-item " href="/about">关于</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜索" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/vc0754">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            pug 语法
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            <time datetime="2018-08-10T07:12:26.000Z" itemprop="datePublished">8月 10 2018</time>
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/tutorial/">tutorial</a><span>></span><a class="article-category-link" href="/categories/tutorial/grammar/">grammar</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            4 分钟 读完 (约 637 字)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <img src="/tutorial/grammar/pug-grammar/thumbnail.jpg"><br>
+
+<p><code>pug</code> 是一个 <code>JavaScript</code> 的高性能模板引擎，被使用在 <code>Node.js</code> 和 浏览器 项目中。是由 <code>Jade</code> 重命名而来</p>
+<p>参考<br><a href="https://pugjs.org" target="_blank" rel="noopener">https://pugjs.org</a></p>
+<a id="more"></a>
+
+<p>按照 html 的缩进格式</p>
+<h3 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h3><p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">doctype html</span><br><span class="line">html</span><br><span class="line">  head</span><br><span class="line">    title</span><br><span class="line">  body</span><br></pre></td></tr></table></figure></p>
+<p>编译结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;title&gt;&lt;/title&gt;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="文本"><a href="#文本" class="headerlink" title="文本"></a>文本</h3><p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">p 这是文本</span><br><span class="line">| 这是文本</span><br><span class="line">p.</span><br><span class="line">  这是文本</span><br></pre></td></tr></table></figure></p>
+<p>编译结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;这是文本&lt;/p&gt;</span><br><span class="line">这是文本</span><br><span class="line">&lt;p&gt;这是文本&lt;/p&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><p>设置 class 名跟 id 名（默认是 div）<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">p.foo</span><br><span class="line">p#foo</span><br><span class="line">p#foo.foo</span><br><span class="line">.foo</span><br><span class="line">#foo</span><br></pre></td></tr></table></figure></p>
+<p>编译结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;p class=&quot;foo&quot;&gt;&lt;/p&gt;</span><br><span class="line">&lt;p id=&quot;foo&quot;&gt;&lt;/p&gt;</span><br><span class="line">&lt;p id=&quot;foo&quot; class=&quot;foo&quot;&gt;&lt;/p&gt;</span><br><span class="line">&lt;div class=&quot;foo&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;div id=&quot;foo&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="其他属性："><a href="#其他属性：" class="headerlink" title="其他属性："></a>其他属性：</h4><p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">a(href=&quot;google.com&quot;) google</span><br><span class="line">- var foo = true</span><br><span class="line">p(class=foo ? &quot;authed&quot; : &quot;anon&quot;)</span><br><span class="line">input(</span><br><span class="line">  type=&quot;checkbox&quot;</span><br><span class="line">  name=&quot;agreement&quot;</span><br><span class="line">  checked</span><br><span class="line">)</span><br><span class="line">div(data-bar=&quot;foo&quot;)&amp;attributes(&#123;&quot;data-foo&quot;: &quot;bar&quot;&#125;)</span><br><span class="line"></span><br><span class="line">- var attr = &#123;&#125;</span><br><span class="line">- attr.class = &quot;baz&quot;</span><br><span class="line">div(data-bar=&quot;foo&quot;)&amp;attributes(attr)</span><br></pre></td></tr></table></figure></p>
+<p>编译结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;google.com&quot;&gt;google&lt;/a&gt;</span><br><span class="line">&lt;p class=&quot;authed&quot;&gt;&lt;/p&gt;</span><br><span class="line">&lt;input type=&quot;checkbox&quot; name=&quot;agreement&quot; checked&gt;</span><br><span class="line">&lt;div data-bar=&quot;foo&quot; data-foo=&quot;bar&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;div class=&quot;baz&quot; data-bar=&quot;foo&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 行注释</span><br><span class="line">//- 编译后不会显示出来</span><br><span class="line">//</span><br><span class="line">  块注释</span><br><span class="line">&lt;!--可以直接使用注释代码--&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="case语句"><a href="#case语句" class="headerlink" title="case语句"></a>case语句</h3><p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- var num = 3</span><br><span class="line">case num</span><br><span class="line">  when 0</span><br><span class="line">    p 这是0</span><br><span class="line">  when 1 </span><br><span class="line">    - break</span><br><span class="line">  when 3</span><br><span class="line">    p 这是#&#123;num&#125;</span><br></pre></td></tr></table></figure></p>
+<p>编译结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;这是3&lt;/p&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h3><p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ul</span><br><span class="line">  - var n = 0</span><br><span class="line">  while n &lt; 4</span><br><span class="line">    li= n++</span><br><span class="line"> ul</span><br><span class="line">  - for (var x = 0; x &lt; 3; x++)</span><br><span class="line">    li item</span><br><span class="line">ol</span><br><span class="line">  - var list = [1,2,3,4,5,6]</span><br><span class="line">  each item in list</span><br><span class="line">    li= item</span><br></pre></td></tr></table></figure></p>
+<p>编译结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">  &lt;li&gt;0&lt;/li&gt;</span><br><span class="line">  &lt;li&gt;1&lt;/li&gt;</span><br><span class="line">  &lt;li&gt;2&lt;/li&gt;</span><br><span class="line">  &lt;li&gt;3&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br><span class="line">&lt;ul&gt;</span><br><span class="line">  &lt;li&gt;item&lt;/li&gt;</span><br><span class="line">  &lt;li&gt;item&lt;/li&gt;</span><br><span class="line">  &lt;li&gt;item&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br><span class="line">&lt;ol&gt;</span><br><span class="line">  &lt;li&gt;1&lt;/li&gt;</span><br><span class="line">  &lt;li&gt;2&lt;/li&gt;</span><br><span class="line">  &lt;li&gt;3&lt;/li&gt;</span><br><span class="line">  &lt;li&gt;4&lt;/li&gt;</span><br><span class="line">  &lt;li&gt;5&lt;/li&gt;</span><br><span class="line">  &lt;li&gt;6&lt;/li&gt;</span><br><span class="line">&lt;/ol&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="条件语句"><a href="#条件语句" class="headerlink" title="条件语句"></a>条件语句</h3><p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- var user = &#123;foo: &quot;this is foo&quot;&#125;</span><br><span class="line">- var bar = baz</span><br><span class="line">#user</span><br><span class="line">  if user.foo</span><br><span class="line">    h2.green foo</span><br><span class="line">    p.foo= user.foo</span><br><span class="line">  else if bar</span><br><span class="line">    h2.blue foo</span><br><span class="line">    p.foo.</span><br><span class="line">      User has no foo</span><br><span class="line">  else</span><br><span class="line">    h2.red foo</span><br><span class="line">    p.foo user has no foo</span><br><span class="line"></span><br><span class="line">unless user.isFoo</span><br><span class="line">  p 等同于：if !user.Foo</span><br></pre></td></tr></table></figure></p>
+<p>编译结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;user&quot;&gt;</span><br><span class="line">  &lt;h2 class=&quot;green&quot;&gt;foo&lt;/h2&gt;</span><br><span class="line">  &lt;p class=&quot;foo&quot;&gt;this is foo&lt;/p&gt;</span><br><span class="line">  &lt;p&gt;等同于：if !user.Foo&lt;/p&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="mixin-创建重用的代码"><a href="#mixin-创建重用的代码" class="headerlink" title="mixin 创建重用的代码"></a>mixin 创建重用的代码</h3><p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mixin list</span><br><span class="line">  ul</span><br><span class="line">    li foo</span><br><span class="line">    li bar </span><br><span class="line">    li baz</span><br><span class="line">+list</span><br><span class="line">+list</span><br></pre></td></tr></table></figure></p>
+<p>编译结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">  &lt;li&gt;foo&lt;/li&gt;</span><br><span class="line">  &lt;li&gt;bar &lt;/li&gt;</span><br><span class="line">  &lt;li&gt;baz&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br><span class="line">&lt;ul&gt;</span><br><span class="line">  &lt;li&gt;foo&lt;/li&gt;</span><br><span class="line">  &lt;li&gt;bar &lt;/li&gt;</span><br><span class="line">  &lt;li&gt;baz&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="mixin支持传参"><a href="#mixin支持传参" class="headerlink" title="mixin支持传参"></a>mixin支持传参</h4><p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mixin article(title)</span><br><span class="line">  .article</span><br><span class="line">    .article-wrapper</span><br><span class="line">      h3= title</span><br><span class="line">      if block</span><br><span class="line">        block</span><br><span class="line">      else</span><br><span class="line">        p NO content provided</span><br><span class="line">+article(&quot;Hello worle&quot;)</span><br><span class="line">+article(&quot;hello pug&quot;)</span><br><span class="line">  p This is my</span><br><span class="line">  p Amazing article</span><br></pre></td></tr></table></figure></p>
+<p>编译结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;article&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;article-wrapper&quot;&gt;</span><br><span class="line">    &lt;h3&gt;Hello worle&lt;/h3&gt;</span><br><span class="line">    &lt;p&gt;NO content provided&lt;/p&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;div class=&quot;article&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;article-wrapper&quot;&gt;</span><br><span class="line">    &lt;h3&gt;hello pug&lt;/h3&gt;</span><br><span class="line">    &lt;p&gt;This is my&lt;/p&gt;</span><br><span class="line">    &lt;p&gt;Amazing article&lt;/p&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>还有：<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mixin link(href, name)</span><br><span class="line">  a(class!=attributes.class href=href)= name</span><br><span class="line">+link(&quot;/foo&quot;, &quot;foo&quot;)(class=&quot;btn&quot;)</span><br></pre></td></tr></table></figure></p>
+<p>编译结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a class=&quot;btn&quot; href=&quot;/foo&quot;&gt;foo&lt;/a&gt;</span><br></pre></td></tr></table></figure></p>
+<p>未知参数：<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mixin list(id, ...items)</span><br><span class="line">  ul(id=id)</span><br><span class="line">    each item in items</span><br><span class="line">      li= item</span><br><span class="line">+list(&quot;my-list&quot;,1,2,3,4)</span><br></pre></td></tr></table></figure></p>
+<p>编译结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul id=&quot;my-list&quot;&gt;</span><br><span class="line">  &lt;li&gt;1&lt;/li&gt;</span><br><span class="line">  &lt;li&gt;2&lt;/li&gt;</span><br><span class="line">  &lt;li&gt;3&lt;/li&gt;</span><br><span class="line">  &lt;li&gt;4&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Extends-扩展"><a href="#Extends-扩展" class="headerlink" title="Extends 扩展"></a>Extends 扩展</h3><p>允许模板来扩展一个布局或父模板，它可以覆盖某些预定义内容块。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//- index.pug</span><br><span class="line">extends layout.pug</span><br><span class="line"></span><br><span class="line">block title</span><br><span class="line">  title Article Title</span><br><span class="line"></span><br><span class="line">block content</span><br><span class="line">  h1 My Article</span><br></pre></td></tr></table></figure></p>
+<p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//- layout.pug</span><br><span class="line">doctype html</span><br><span class="line">html</span><br><span class="line">  head</span><br><span class="line">    block title</span><br><span class="line">      title Default title</span><br><span class="line">  body</span><br><span class="line">    block content</span><br></pre></td></tr></table></figure></p>
+<p>编译结果：<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;title&gt;Article Title&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">  &lt;h1&gt;My Article&lt;/h1&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Includes"><a href="#Includes" class="headerlink" title="Includes"></a>Includes</h3><p>允许将一个pug文件的内容插入到另一个文件。<br>在要插入的位置：include 文件地址<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//- index.pug</span><br><span class="line">doctype html</span><br><span class="line">html</span><br><span class="line">  include includes/head.pug</span><br><span class="line">  body</span><br><span class="line">    h1 My Site</span><br><span class="line">    p Welcome to my super lame site.</span><br><span class="line">    include includes/foot.pug</span><br></pre></td></tr></table></figure></p>
+<p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//- includes/head.pug</span><br><span class="line">head</span><br><span class="line">  title My Site</span><br><span class="line">  script(src=&apos;/javascripts/jquery.js&apos;)</span><br><span class="line">  script(src=&apos;/javascripts/app.js&apos;)</span><br></pre></td></tr></table></figure></p>
+<p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//- includes/foot.pug</span><br><span class="line">footer#footer</span><br><span class="line">  p Copyright (c) foobar</span><br></pre></td></tr></table></figure></p>
+<p>编译结果：<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;title&gt;My Site&lt;/title&gt;</span><br><span class="line">  &lt;script src=&quot;/javascripts/jquery.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">  &lt;script src=&quot;/javascripts/app.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">  &lt;h1&gt;My Site&lt;/h1&gt;</span><br><span class="line">  &lt;p&gt;Welcome to my super lame site.&lt;/p&gt;</span><br><span class="line">  &lt;footer id=&quot;footer&quot;&gt;</span><br><span class="line">    &lt;p&gt;Copyright (c) foobar&lt;/p&gt;</span><br><span class="line">  &lt;/footer&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/pug/">#pug</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/tutorial/nginx/http-load-balancing-with-nginx/">Nginx 均衡负载视频教程</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/portfolio/development/chj-mini-shop-wechat-mini-application/">广东潮宏基实业 - 小程序开发</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 Vincent Cheng&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/vc0754">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+
+            <script>
+            var _hmt = _hmt || [];
+            (function() {
+                var hm = document.createElement("script");
+                hm.src = "https://hm.baidu.com/hm.js?c898c285c47a672fc2407cda4bf8617d";
+                var s = document.getElementsByTagName("script")[0]; 
+                s.parentNode.insertBefore(hm, s);
+            })();
+            </script>
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站内搜索">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

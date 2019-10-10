@@ -2,7 +2,7 @@
 <html class="has-navbar-fixed-top">
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-<title>基于 NodeJS 的微服务框架 - Vincent</title>
+<title>基于 Node.js 的微服务框架 - Vincent</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
@@ -16,20 +16,16 @@
 
 
 
-    <meta name="description" content="关于系统架构，当下最新的热门话题肯定离不开微服务架构（microservice）。微服务是什么鬼，这里就不做过多的解释了，不过相信大家应该都知道（，）这两个公司吧，他们就通过实践、投入并使用了这种架构模式。">
+    <meta name="keywords" content="nodejs, seneca, express, javascript">
 <meta property="og:type" content="article">
-<meta property="og:title" content="基于 NodeJS 的微服务框架">
+<meta property="og:title" content="基于 Node.js 的微服务框架">
 <meta property="og:url" content="https://vincent0754.github.io/uncategorized/nodejs-microservices/index.html">
 <meta property="og:site_name" content="Vincent">
-<meta property="og:description" content="关于系统架构，当下最新的热门话题肯定离不开微服务架构（microservice）。微服务是什么鬼，这里就不做过多的解释了，不过相信大家应该都知道（，）这两个公司吧，他们就通过实践、投入并使用了这种架构模式。">
 <meta property="og:locale" content="zh-cn">
 <meta property="og:image" content="https://vincent0754.github.io/uncategorized/nodejs-microservices/thumbnail.jpg">
-<meta property="og:image" content="https://vincent0754.github.io/uncategorized/nodejs-microservices/netflix.png">
-<meta property="og:image" content="https://vincent0754.github.io/uncategorized/nodejs-microservices/amazon.png">
-<meta property="og:updated_time" content="2019-09-21T08:56:37.630Z">
+<meta property="og:updated_time" content="2019-10-10T07:59:19.567Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="基于 NodeJS 的微服务框架">
-<meta name="twitter:description" content="关于系统架构，当下最新的热门话题肯定离不开微服务架构（microservice）。微服务是什么鬼，这里就不做过多的解释了，不过相信大家应该都知道（，）这两个公司吧，他们就通过实践、投入并使用了这种架构模式。">
+<meta name="twitter:title" content="基于 Node.js 的微服务框架">
 <meta name="twitter:image" content="https://vincent0754.github.io/uncategorized/nodejs-microservices/thumbnail.jpg">
 
 
@@ -126,7 +122,7 @@
     <article class="article content gallery" itemscope itemprop="blogPost">
     <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
         
-            基于 NodeJS 的微服务框架
+            基于 Node.js 的微服务框架
         
     </h1>
     <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
@@ -138,7 +134,7 @@
         <span class="column is-narrow">
             
             
-            7 分钟 读完 (约 978 字)
+            7 分钟 读完 (约 1078 字)
         </span>
         
     </div>
@@ -146,10 +142,12 @@
     
         <img src="/uncategorized/nodejs-microservices/thumbnail.jpg"><br>
 
-<p>关于系统架构，当下最新的热门话题肯定离不开微服务架构（microservice）。微服务是什么鬼，这里就不做过多的解释了，不过相信大家应该都知道（<img src="/uncategorized/nodejs-microservices/netflix.png">，<img src="/uncategorized/nodejs-microservices/amazon.png">）这两个公司吧，他们就通过实践、投入并使用了这种架构模式。</p>
+<!-- 关于系统架构，当下最新的热门话题肯定离不开微服务架构（microservice）。微服务是什么鬼，这里就不做过多的解释了，不过相信大家应该都知道（<img src="/uncategorized/nodejs-microservices/netflix.png">，<img src="/uncategorized/nodejs-microservices/amazon.png">）这两个公司吧，他们就通过实践、投入并使用了这种架构模式。 -->
+
 <a id="more"></a>
 
-<h1 id="Seneca"><a href="#Seneca" class="headerlink" title="Seneca"></a>Seneca</h1><p>官网地址: <a href="http://senecajs.org/" target="_blank" rel="noopener">http://senecajs.org/</a></p>
+<h1 id="Seneca"><a href="#Seneca" class="headerlink" title="Seneca"></a>Seneca</h1><p>A Node.js toolkit for Microservice architectures<br>这是一个基于 NodeJS 的微服务工具套件。</p>
+<p>官网地址: <a href="http://senecajs.org/" target="_blank" rel="noopener">http://senecajs.org/</a></p>
 <h3 id="Methods-方法"><a href="#Methods-方法" class="headerlink" title="Methods 方法"></a>Methods 方法</h3><h4 id="seneca-add"><a href="#seneca-add" class="headerlink" title="seneca.add"></a>seneca.add</h4><p>添加一个新的 action pattern 到 seneca 实例</p>
 <ul>
 <li>pattern 匹配的属性模式</li>
@@ -209,11 +207,18 @@
 <hr>
 <p>–seneca.log.all<br>–seneca.log=plugin:math<br>–seneca.print.tree</p>
 <hr>
-<h3 id="WEB-服务器集成"><a href="#WEB-服务器集成" class="headerlink" title="WEB 服务器集成"></a>WEB 服务器集成</h3><p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var SenecaWeb = require(&apos;seneca-web&apos;)</span><br><span class="line">var Express = require(&apos;express&apos;)</span><br><span class="line">var Router = Express.Router</span><br><span class="line">var context = new Router()</span><br><span class="line"></span><br><span class="line">var senecaWebConfig = &#123;</span><br><span class="line">      context: context,</span><br><span class="line">      adapter: require(&apos;seneca-web-adapter-express&apos;),</span><br><span class="line">      options: &#123; parseBody: false &#125; // so we can use body-parser</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var app = Express()</span><br><span class="line">      .use( require(&apos;body-parser&apos;).json() )</span><br><span class="line">      .use( context )</span><br><span class="line">      .listen(3000)</span><br><span class="line"></span><br><span class="line">var seneca = require(&apos;seneca&apos;)()</span><br><span class="line">      .use(SenecaWeb, senecaWebConfig )</span><br><span class="line">      .use(&apos;api&apos;)</span><br><span class="line">      .client( &#123; type:&apos;tcp&apos;, pin:&apos;role:math&apos; &#125; )</span><br></pre></td></tr></table></figure></p>
+<h3 id="WEB-服务器集成"><a href="#WEB-服务器集成" class="headerlink" title="WEB 服务器集成"></a>WEB 服务器集成</h3><p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var SenecaWeb = require(&apos;seneca-web&apos;)</span><br><span class="line">var Express = require(&apos;express&apos;)</span><br><span class="line">var Router = Express.Router</span><br><span class="line">var context = new Router()</span><br><span class="line"></span><br><span class="line">var senecaWebConfig = &#123;</span><br><span class="line">  context: context,</span><br><span class="line">  adapter: require(&apos;seneca-web-adapter-express&apos;),</span><br><span class="line">  options: &#123; parseBody: false &#125; // so we can use body-parser</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var app = Express()</span><br><span class="line">  .use( require(&apos;body-parser&apos;).json() )</span><br><span class="line">  .use( context )</span><br><span class="line">  .listen(3000)</span><br><span class="line"></span><br><span class="line">var seneca = require(&apos;seneca&apos;)()</span><br><span class="line">  .use(SenecaWeb, senecaWebConfig )</span><br><span class="line">  .use(&apos;api&apos;)</span><br><span class="line">  .client( &#123; type:&apos;tcp&apos;, pin:&apos;role:math&apos; &#125; )</span><br></pre></td></tr></table></figure></p>
+<p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">module.exports = function api(options) &#123;</span><br><span class="line">  var valid_ops = &#123; sum:&apos;sum&apos;, product:&apos;product&apos; &#125;</span><br><span class="line">  this.add(&apos;role:api,path:calculate&apos;, function (msg, respond) &#123;</span><br><span class="line">    var operation = msg.args.params.operation</span><br><span class="line">    var left = msg.args.query.left</span><br><span class="line">    var right = msg.args.query.right</span><br><span class="line">    this.act(&apos;role:math&apos;, &#123;</span><br><span class="line">      cmd:   valid_ops[operation],</span><br><span class="line">      left:  left,</span><br><span class="line">      right: right,</span><br><span class="line">    &#125;, respond)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  this.add(&apos;init:api&apos;, function (msg, respond) &#123;</span><br><span class="line">    this.act(&apos;role:web&apos;,&#123;routes:&#123;</span><br><span class="line">      prefix: &apos;/api&apos;,</span><br><span class="line">      pin:    &apos;role:api,path:*&apos;,</span><br><span class="line">      map: &#123;</span><br><span class="line">        calculate: &#123; GET:true, suffix:&apos;/:operation&apos; &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;&#125;, respond)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <hr>
 <h3 id="附"><a href="#附" class="headerlink" title="附"></a>附</h3><p>微服务这一概念出现于2012年，是因软件作者 Martin Fowler 而流行，他承认这并没有精确地定义出这一架构形式，虽然围绕业务能力、自动化部署、终端智能以及语言和数据的分散控制有一些常见的特性。</p>
 <p>为了让大家更好的理解，我这里转了一篇大白话的文章，感兴趣的可以看看<br><a href="http://www.sohu.com/a/227348782_355137" target="_blank" rel="noopener">如何给老婆解释什么是微服务？</a></p>
 
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/nodejs-seneca-express-javascript/">#nodejs, seneca, express, javascript</a></span>
     
     </div>
     
