@@ -25,7 +25,7 @@
 <meta property="og:description" content="pug 是一个 JavaScript 的高性能模板引擎，被使用在 Node.js 和 浏览器 项目中。是由 Jade 重命名而来 参考https://pugjs.org">
 <meta property="og:locale" content="zh-cn">
 <meta property="og:image" content="https://vincent0754.github.io/tutorial/grammar/pug-grammar/thumbnail.jpg">
-<meta property="og:updated_time" content="2019-10-10T07:43:55.991Z">
+<meta property="og:updated_time" content="2019-10-10T08:25:34.206Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pug 语法">
 <meta name="twitter:description" content="pug 是一个 JavaScript 的高性能模板引擎，被使用在 Node.js 和 浏览器 项目中。是由 Jade 重命名而来 参考https://pugjs.org">
@@ -142,7 +142,7 @@
         <span class="column is-narrow">
             
             
-            4 分钟 读完 (约 637 字)
+            5 分钟 读完 (约 824 字)
         </span>
         
     </div>
@@ -154,6 +154,74 @@
 <p>参考<br><a href="https://pugjs.org" target="_blank" rel="noopener">https://pugjs.org</a></p>
 <a id="more"></a>
 
+<h2 id="符号与汉含义"><a href="#符号与汉含义" class="headerlink" title="符号与汉含义"></a>符号与汉含义</h2><table>
+<thead>
+<tr>
+<th>符号</th>
+<th align="center">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>.</td>
+<td align="center">表示之后的内容翻译为纯文本</td>
+</tr>
+<tr>
+<td>:</td>
+<td align="center">表示嵌套关系，不需要换行</td>
+</tr>
+<tr>
+<td>|</td>
+<td align="center">表示之后的内容翻译为纯文本，不识别 html 标签</td>
+</tr>
+<tr>
+<td>//</td>
+<td align="center">注释，在编译出来的 html 中显示</td>
+</tr>
+<tr>
+<td>//-</td>
+<td align="center">注释，在编译出来的 html 中不显示</td>
+</tr>
+<tr>
+<td>-</td>
+<td align="center">后接 js 代码</td>
+</tr>
+<tr>
+<td>#{变量}</td>
+<td align="center">转义插值</td>
+</tr>
+<tr>
+<td>!{变量}</td>
+<td align="center">非转义插值</td>
+</tr>
+</tbody></table>
+<h2 id="模板关键字"><a href="#模板关键字" class="headerlink" title="模板关键字"></a>模板关键字</h2><table>
+<thead>
+<tr>
+<th>关键字</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>block</td>
+<td align="center">占位符，通过其实现子模版的追加和替换</td>
+</tr>
+<tr>
+<td>entends</td>
+<td align="center">继承，子模版继承父模板中的代码</td>
+</tr>
+<tr>
+<td>appends</td>
+<td align="center">在子模版中向后追加内容</td>
+</tr>
+<tr>
+<td>prepend</td>
+<td align="center">在子模版中向前追加内容</td>
+</tr>
+<tr>
+<td>include</td>
+<td align="center">引入文件，并将其中的代码放到模板中</td>
+</tr>
+</tbody></table>
 <p>按照 html 的缩进格式</p>
 <h3 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h3><p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">doctype html</span><br><span class="line">html</span><br><span class="line">  head</span><br><span class="line">    title</span><br><span class="line">  body</span><br></pre></td></tr></table></figure></p>
 <p>编译结果<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;title&gt;&lt;/title&gt;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
