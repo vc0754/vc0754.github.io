@@ -1,14 +1,14 @@
 [
   {
     'name': 'Banner 01',
-    'color': '#3700B3'
+    'color': 0x3700B3
   },
   {
     'name': 'Banner 02',
-    'color': '#BB86FC'
+    'color': 0xBB86FC
   },
   {
     'name': 'Banner 03',
-    'color': '#03DAC5'
+    'color': 0x03DAC5
   }
 ]
